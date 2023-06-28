@@ -22,15 +22,13 @@
         "chat": "https://laminas.dev/chat",
         "forum": "https://discourse.laminas.dev"
     },
+    "minimum-stability": "dev",
     "config": {
         "sort-packages": true,
         "allow-plugins": {
             "dealerdirect/phpcodesniffer-composer-installer": true,
             "composer/package-versions-deprecated": true,
             "laminas/laminas-component-installer": true
-        },
-        "platform": {
-            "php": "8.0.99"
         }
     },
     "extra": {
@@ -47,14 +45,16 @@
     "require": {
         "php": "~8.0.0 || ~8.1.0 || ~8.2.0",
         "composer/package-versions-deprecated": "^1.10.99",
+        "doctrine/cache": "^2.2",
         "laminas/laminas-component-installer": "^2.6 || ^3.0",
         "laminas/laminas-config-aggregator": "^1.6",
         "laminas/laminas-diactoros": "^2.24.2",
+        "laminas/laminas-servicemanager": "^3.4",
         "laminas/laminas-stdlib": "^3.6",
         "mezzio/mezzio": "^3.7",
+        "mezzio/mezzio-fastroute": "^3.0.3",
         "mezzio/mezzio-helpers": "^5.7",
-        "laminas/laminas-servicemanager": "^3.4",
-        "mezzio/mezzio-fastroute": "^3.0.3"
+        "skar/laminas-doctrine-orm": "dev-master"
     },
     "require-dev": {
         "laminas/laminas-development-mode": "^3.3.0",
