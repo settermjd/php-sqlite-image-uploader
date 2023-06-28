@@ -4,6 +4,10 @@ declare(strict_types=1);
 
 namespace App;
 
+use App\Repository\ImageRepository;
+use App\Repository\ImageRepositoryFactory;
+use Laminas\ServiceManager\AbstractFactory\ReflectionBasedAbstractFactory;
+
 /**
  * The configuration provider for the App module
  *
@@ -36,6 +40,8 @@ class ConfigProvider
             ],
             'factories'  => [
                 Handler\HomePageHandler::class => Handler\HomePageHandlerFactory::class,
+                Handler\UploadHandler::class   => ReflectionBasedAbstractFactory::class,
+                ImageRepository::class         => ImageRepositoryFactory::class,
             ],
         ];
     }
