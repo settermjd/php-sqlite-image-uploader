@@ -1,0 +1,12 @@
+{% extends '@layout/default.html.twig' %}
+
+{% block title %}404 Page Not Found (Or it was moved){% endblock %}
+
+{% block content %}
+    <h1>Oops! This is awkward.</h1>
+    <p>
+        It seems that you've asked for a page that doesn't exist or may have moved. &#128547;
+        You are looking for something that doesn't exist.
+        How about heading back to <a class="hover:underline decoration-2 underline-offset-4 text-sky-800 decoration-sky-800 cursor-pointer transition duration-300 ease-in-out" href="{{ path('home') }}">the home page</a>?
+    </p>
+{% endblock %}
