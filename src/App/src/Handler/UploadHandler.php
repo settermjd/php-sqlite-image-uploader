@@ -14,6 +14,7 @@ use Laminas\Diactoros\UploadedFileFactory;
 use Laminas\Filter\File\RenameUpload;
 use Laminas\InputFilter\FileInput;
 use Laminas\InputFilter\InputFilter;
+use Laminas\Validator\File\FilesSize;
 use Laminas\Validator\File\IsImage;
 use Laminas\Validator\File\MimeType;
 use Laminas\Validator\File\UploadFile;
@@ -43,6 +44,10 @@ class UploadHandler implements RequestHandlerInterface
             ->attach(new UploadFile())
             // Ensure that the uploaded file is an image
             ->attach(new IsImage())
+            // Limit the file to a maximum size of 5MB
+            ->attach(new FilesSize([
+                'max' => '5MB',
+            ]))
             // Restrict the allowed file types
             ->attach(new MimeType([
                 'image/avif',
