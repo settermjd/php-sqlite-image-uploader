@@ -6,7 +6,10 @@ namespace App;
 
 use App\Repository\ImageRepository;
 use App\Repository\ImageRepositoryFactory;
-use Laminas\ServiceManager\AbstractFactory\ReflectionBasedAbstractFactory;
+use Monolog\Handler\StreamHandler;
+use Monolog\Level;
+use Monolog\Logger;
+use Psr\Log\LoggerInterface;
 
 /**
  * The configuration provider for the App module
@@ -42,6 +45,11 @@ class ConfigProvider
                 Handler\HomePageHandler::class => Handler\HomePageHandlerFactory::class,
                 Handler\UploadHandler::class   => ReflectionBasedAbstractFactory::class,
                 ImageRepository::class         => ImageRepositoryFactory::class,
+                LoggerInterface::class         => function (): LoggerInterface {
+                    $log = new Logger('name');
+                    $log->pushHandler(new StreamHandler(__DIR__ . '/../../../data/log/app.log', Level::Debug));
+                    return $log;
+                },
             ],
         ];
     }
