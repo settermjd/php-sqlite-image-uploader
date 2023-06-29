@@ -42,10 +42,11 @@ class ConfigProvider
                 Handler\PingHandler::class => Handler\PingHandler::class,
             ],
             'factories'  => [
-                Handler\HomePageHandler::class => Handler\HomePageHandlerFactory::class,
-                Handler\UploadHandler::class   => Handler\UploadHandlerFactory::class,
-                ImageRepository::class         => ImageRepositoryFactory::class,
-                LoggerInterface::class         => function (): LoggerInterface {
+                Handler\HomePageHandler::class        => Handler\HomePageHandlerFactory::class,
+                Handler\UploadHandler::class          => Handler\UploadHandlerFactory::class,
+                Handler\UploadImageFormHandler::class => Handler\UploadImageFormHandlerFactory::class,
+                ImageRepository::class                => ImageRepositoryFactory::class,
+                LoggerInterface::class                => function (): LoggerInterface {
                     $log = new Logger('name');
                     $log->pushHandler(new StreamHandler(__DIR__ . '/../../../data/log/app.log', Level::Debug));
                     return $log;

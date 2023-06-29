@@ -1,0 +1,38 @@
+{% extends '@layout/default.html.twig' %}
+
+{% block title %}Uploaded Image{% endblock %}
+
+{% block content %}
+
+    <form name="upload-image" action="/" method="post" enctype="multipart/form-data">
+        <div class="mb-4">
+            <label class="text-normal font-bold text-gray-700 block mb-2 cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
+                   for="file">Pick an image:</label>
+            <input accept="image/avif,image/gif,image/jpeg,image/png,image/webp"
+                   class="relative m-0 block w-full min-w-0 flex-auto rounded border border-solid border-neutral-300 bg-clip-padding px-3 py-[0.32rem] text-base font-normal text-neutral-700 transition duration-300 ease-in-out file:-mx-3 file:-my-[0.32rem] file:overflow-hidden file:rounded-none file:border-0 file:border-solid file:border-inherit file:bg-neutral-100 file:px-3 file:py-[0.32rem] file:text-neutral-700 file:transition file:duration-150 file:ease-in-out file:[border-inline-end-width:1px] file:[margin-inline-end:0.75rem] hover:file:bg-neutral-200 focus:border-primary focus:text-neutral-700 focus:shadow-te-primary focus:outline-none dark:border-neutral-600 dark:text-neutral-200 dark:file:bg-neutral-700 dark:file:text-neutral-100 dark:focus:border-primary"
+                   id="file"
+                   name="file"
+                   required="required"
+                   type="file">
+            <div class="mt-2 text-sm">
+                Only <a href="https://web.dev/learn/images/avif/"
+                        title="Learn more about the AVIF file format"
+                        target="_blank">AVIF</a>,
+                <a href="https://web.dev/learn/images/gif/"
+                   title="Learn more about the GIF file format"
+                   target="_blank">GIF</a>,
+                <a href="https://web.dev/learn/images/jpeg/"
+                   title="Learn more about the JPEG file format"
+                   target="_blank">JPG</a>,
+                <a href="https://web.dev/learn/images/png/"
+                   title="Learn more about the PNG file format"
+                   target="_blank">PNG</a>, and
+                <a href="https://web.dev/learn/images/webp/"
+                   title="Learn more about the WebP file format"
+                   target="_blank">WebP</a>
+                files are supported, up to a maximum file size of <strong>5MB</strong>.</div>
+        </div>
+        <input type="submit" name="submit" value="Upload Image">
+    </form>
+
+{% endblock %}
