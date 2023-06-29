@@ -3,7 +3,9 @@
 declare(strict_types=1);
 
 use Mezzio\Application;
+use Mezzio\Flash\FlashMessageMiddleware;
 use Mezzio\MiddlewareFactory;
+use Mezzio\Session\SessionMiddleware;
 use Psr\Container\ContainerInterface;
 
 /**
@@ -38,8 +40,25 @@ use Psr\Container\ContainerInterface;
  */
 
 return static function (Application $app, MiddlewareFactory $factory, ContainerInterface $container): void {
-    $app->get('/', App\Handler\HomePageHandler::class, 'home');
+    $app->get(
+        '/',
+        [
+            SessionMiddleware::class,
+            FlashMessageMiddleware::class,
+            App\Handler\HomePageHandler::class,
+        ],
+        'home'
+    );
     $app->get('/image', App\Handler\UploadImageFormHandler::class, 'image.upload.form');
-    $app->post('/', App\Handler\UploadHandler::class, 'upload');
+    $app->get(
+        '/image/delete/{id:\d+}',
+        [
+            SessionMiddleware::class,
+            FlashMessageMiddleware::class,
+            App\Handler\DeleteImageHandler::class,
+        ],
+        'image.delete'
+    );
+    $app->post('/', App\Handler\UploadHandler::class, 'image.upload');
     $app->get('/api/ping', App\Handler\PingHandler::class, 'api.ping');
 };

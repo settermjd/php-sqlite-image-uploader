@@ -5,14 +5,28 @@
 {% block content %}
     <h1>Available Images</h1>
 
+    {% if deleted %}
+    <div class="border border-green-300 bg-green-50 rounded-md p-3">
+        Image was successfully deleted
+    </div>
+    {% endif %}
+
     <div class="grid grid-cols-1 lg:grid-cols-3 gap-4 mt-6">
         {% for image in images %}
-            <div class="border-2 border-slate-200 rounded-md p-2">
+            <div class="border-2 border-slate-200 rounded-md p-2 shadow-sm">
                 <div class="flex flex-row justify-center items-center">
                     <img src="data:image/png;base64,{{ image.getData() }}"
-                          alt="{{ image.getName() }}">
+                         class="border border-t-slate-100 rounded-md"
+                         alt="{{ image.getName() }}">
                 </div>
-                <div class="text-center text-sm mt-2">{{ image.getName() }}</div>
+                <div class="flex flex-row bg-white p-2 border border-slate-200 mt-2 justify-between">
+                    <div class="text-center text-sm text-slate-500 break-words">{{ image.getName() }}</div>
+                    <div>
+                        <a href="/image/delete/{{ image.getId() }}" title="delete the image.">
+                            <img src="/images/delete.png" width="24">
+                        </a>
+                    </div>
+                </div>
             </div>
         {% endfor %}
     </div>
