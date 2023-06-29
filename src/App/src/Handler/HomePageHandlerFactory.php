@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Handler;
 
-use Mezzio\Router\RouterInterface;
+use Doctrine\ORM\EntityManager;
 use Mezzio\Template\TemplateRendererInterface;
 use Psr\Container\ContainerInterface;
 use Psr\Http\Server\RequestHandlerInterface;
@@ -15,14 +15,11 @@ class HomePageHandlerFactory
 {
     public function __invoke(ContainerInterface $container): RequestHandlerInterface
     {
-        $router = $container->get(RouterInterface::class);
-        assert($router instanceof RouterInterface);
+        $template = $container->get(TemplateRendererInterface::class);
+        assert($template instanceof TemplateRendererInterface);
 
-        $template = $container->has(TemplateRendererInterface::class)
-            ? $container->get(TemplateRendererInterface::class)
-            : null;
-        assert($template instanceof TemplateRendererInterface || null === $template);
+        $entityManager = $container->get(EntityManager::class);
 
-        return new HomePageHandler($container::class, $router, $template);
+        return new HomePageHandler($template, $entityManager);
     }
 }
