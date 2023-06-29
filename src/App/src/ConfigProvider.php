@@ -43,7 +43,7 @@ class ConfigProvider
             ],
             'factories'  => [
                 Handler\HomePageHandler::class => Handler\HomePageHandlerFactory::class,
-                Handler\UploadHandler::class   => ReflectionBasedAbstractFactory::class,
+                Handler\UploadHandler::class   => Handler\UploadHandlerFactory::class,
                 ImageRepository::class         => ImageRepositoryFactory::class,
                 LoggerInterface::class         => function (): LoggerInterface {
                     $log = new Logger('name');
