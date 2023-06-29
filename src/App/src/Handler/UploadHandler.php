@@ -14,8 +14,9 @@ use Laminas\Diactoros\UploadedFileFactory;
 use Laminas\Filter\File\RenameUpload;
 use Laminas\InputFilter\FileInput;
 use Laminas\InputFilter\InputFilter;
+use Laminas\Validator\File\IsImage;
+use Laminas\Validator\File\MimeType;
 use Laminas\Validator\File\UploadFile;
-use Mezzio\Template\TemplateRendererInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Message\UploadedFileInterface;
@@ -27,16 +28,34 @@ use function unlink;
 
 class UploadHandler implements RequestHandlerInterface
 {
+    private InputFilter $inputFilter;
+
     public function __construct(
         private EntityManager $entityManager,
         private LoggerInterface $logger
     ) {
         $file = new FileInput('file');
+
+        // Add validators
         $file
             ->getValidatorChain()
-            ->attach(new UploadFile());
+            // Ensure that the file is an uploaded file
+            ->attach(new UploadFile())
+            // Ensure that the uploaded file is an image
+            ->attach(new IsImage())
+            // Restrict the allowed file types
+            ->attach(new MimeType([
+                'image/avif',
+                'image/gif',
+                'image/jpeg',
+                'image/png',
+                'image/webp',
+            ]));
+
+        // Add filters
         $file
             ->getFilterChain()
+            // Move and rename the uploaded file after it is uploaded
             ->attach(new RenameUpload([
                 'overwrite'            => true,
                 'randomize'            => true,
@@ -57,6 +76,8 @@ class UploadHandler implements RequestHandlerInterface
             $request->getParsedBody(),
             $request->getUploadedFiles()
         );
+        $this->logger->debug("POST data", $post);
+
         $this->inputFilter->setData($post);
 
         if ($this->inputFilter->isValid()) {
@@ -75,6 +96,11 @@ class UploadHandler implements RequestHandlerInterface
 
             return new RedirectResponse('/');
         }
+
+        $this->logger->error(
+            "There were POST validation issues.",
+            $this->inputFilter->getMessages()
+        );
 
         return new EmptyResponse(500);
     }
