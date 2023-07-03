@@ -1,8 +1,11 @@
 {% extends '@layout/default.html.twig' %}
 
-{% block title %}Uploaded Image{% endblock %}
+{% block title %}Uploaded a Photo{% endblock %}
 
 {% block content %}
+
+
+    <h1 class="inline-block">Upload a Photo</h1>
 
     <form name="upload-image" action="/" method="post" enctype="multipart/form-data">
         <div class="mb-4">
@@ -32,7 +35,7 @@
                    target="_blank">WebP</a>
                 files are supported, up to a maximum file size of <strong>5MB</strong>.</div>
         </div>
-        <input type="submit" name="submit" value="Upload Image">
+        <input type="submit" name="submit" value="Upload Photo">
     </form>
 
 {% endblock %}

@@ -1,13 +1,13 @@
 {% extends '@layout/default.html.twig' %}
 
-{% block title %}Uploaded Images{% endblock %}
+{% block title %}Home{% endblock %}
 
 {% block content %}
-    <h1>Available Images</h1>
+    <h1 class="inline-block text-2xl">Available Photos</h1>
 
     {% if deleted %}
     <div class="border border-green-300 bg-green-50 rounded-md p-3">
-        Image was successfully deleted
+        Photo was successfully deleted
     </div>
     {% endif %}
 
