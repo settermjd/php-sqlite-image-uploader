@@ -8,9 +8,12 @@ use App\Entity\Image;
 use Doctrine\ORM\EntityManager;
 use Laminas\Diactoros\Response\HtmlResponse;
 use Laminas\Diactoros\Response\RedirectResponse;
+use Laminas\Filter\Digits;
+use Laminas\Filter\StringToLower;
+use Laminas\Filter\StripNewlines;
+use Laminas\Filter\StripTags;
 use Laminas\InputFilter\Input;
 use Laminas\InputFilter\InputFilter;
-use Laminas\Validator\Digits;
 use Mezzio\Flash\FlashMessageMiddleware;
 use Mezzio\Flash\FlashMessagesInterface;
 use Mezzio\Template\TemplateRendererInterface;
@@ -32,6 +35,9 @@ class DeleteImageHandler implements RequestHandlerInterface
     ) {
         $fileId = new Input('id');
         $fileId->getFilterChain()
+            ->attach(new StringToLower())
+            ->attach(new StripNewlines())
+            ->attach(new StripTags())
             ->attach(new Digits());
 
         $this->inputFilter = new InputFilter();
@@ -49,8 +55,9 @@ class DeleteImageHandler implements RequestHandlerInterface
             $fileId = $this->inputFilter->getValue('id');
             $this->logger->debug(sprintf(
                 'Looking for file with ID: %s.',
-                $request->getAttribute('id')
+                $fileId
             ));
+
             $image = $this->entityManager
                 ->getRepository(Image::class)
                 ->findOneBy(['id' => $fileId]);
@@ -60,6 +67,7 @@ class DeleteImageHandler implements RequestHandlerInterface
                     'Could not retrieve file with ID: %s.',
                     $request->getAttribute('id')
                 ));
+
                 if ($flashMessages instanceof FlashMessagesInterface) {
                     $flashMessages->flash('deleted', false);
                 }
@@ -69,10 +77,7 @@ class DeleteImageHandler implements RequestHandlerInterface
             $this->entityManager->remove($image);
             $this->entityManager->flush();
 
-            $this->logger->error(sprintf(
-                'Delete image with id %s.',
-                $this->inputFilter->getValue('id')
-            ));
+            $this->logger->error(sprintf('Delete image with id %s.', $fileId));
 
             if ($flashMessages instanceof FlashMessagesInterface) {
                 $flashMessages->flash('deleted', true);
