@@ -14,6 +14,8 @@ use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 
+use function array_merge;
+
 class HomePageHandler implements RequestHandlerInterface
 {
     public function __construct(
@@ -29,11 +31,11 @@ class HomePageHandler implements RequestHandlerInterface
         /** @var FlashMessagesInterface $flashMessages */
         $flashMessages = $request->getAttribute(FlashMessageMiddleware::FLASH_ATTRIBUTE);
         if ($flashMessages instanceof FlashMessagesInterface) {
-            $messages       = $flashMessages->getFlashes();
-            $data['deleted'] = $messages['deleted'] ?? false;
+            $messages = $flashMessages->getFlashes();
+            $data     = array_merge($data, $messages);
         }
 
-        $images = $this->entityManager
+        $images         = $this->entityManager
             ->getRepository(Image::class)
             ->findAll();
         $data['images'] = $images;
