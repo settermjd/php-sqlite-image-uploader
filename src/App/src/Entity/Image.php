@@ -8,6 +8,7 @@ use App\Repository\ImageRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
+use function base64_encode;
 use function stream_get_contents;
 
 #[ORM\Entity(repositoryClass: ImageRepository::class)]
@@ -29,9 +30,16 @@ class Image
     public function __construct(
         ?string $name,
         ?string $data,
+        ?int $id = null,
     ) {
+        $this->id   = $id;
         $this->name = $name;
         $this->data = $data;
+    }
+
+    public function getId(): ?int
+    {
+        return $this->id;
     }
 
     public function getName(): ?string
