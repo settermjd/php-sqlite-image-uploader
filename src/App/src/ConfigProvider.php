@@ -45,6 +45,7 @@ class ConfigProvider
                 Handler\DeleteImageHandler::class     => Handler\DeleteImageHandlerFactory::class,
                 Handler\HomePageHandler::class        => Handler\HomePageHandlerFactory::class,
                 Handler\UploadHandler::class          => Handler\UploadHandlerFactory::class,
+                Handler\ViewImageHandler::class       => Handler\ViewImageHandlerFactory::class,
                 Handler\UploadImageFormHandler::class => Handler\UploadImageFormHandlerFactory::class,
                 ImageRepository::class                => ImageRepositoryFactory::class,
                 LoggerInterface::class                => function (): LoggerInterface {
