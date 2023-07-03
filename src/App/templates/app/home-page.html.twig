@@ -5,29 +5,57 @@
 {% block content %}
     <h1 class="inline-block text-2xl">Available Photos</h1>
 
-    {% if deleted %}
+    <a href="/image" class="text-slate-800 text-center py-4">
+        <img src="/images/plus-small.png"
+             class="ml-1 mb-1 inline-block"
+             alt="Upload a new photo to SQLite"
+             title="Upload a new photo">
+    </a>
+
+    {% if deleted is defined and deleted == true %}
     <div class="border border-green-300 bg-green-50 rounded-md p-3">
         Photo was successfully deleted
     </div>
     {% endif %}
 
-    <div class="grid grid-cols-1 lg:grid-cols-3 gap-4 mt-6">
-        {% for image in images %}
-            <div class="border-2 border-slate-200 rounded-md p-2 shadow-sm">
-                <div class="flex flex-row justify-center items-center">
-                    <img src="data:image/png;base64,{{ image.getData() }}"
-                         class="border border-t-slate-100 rounded-md"
-                         alt="{{ image.getName() }}">
-                </div>
-                <div class="flex flex-row bg-white p-2 border border-slate-200 mt-2 justify-between">
-                    <div class="text-center text-sm text-slate-500 break-words">{{ image.getName() }}</div>
-                    <div>
-                        <a href="/image/delete/{{ image.getId() }}" title="delete the image.">
-                            <img src="/images/delete.png" width="24">
+    {% if deleted is defined and deleted == false %}
+        <div class="border border-red-300 bg-red-50 rounded-md p-3">
+            Photo was NOT successfully deleted
+        </div>
+    {% endif %}
+
+    {% if images is defined and not images is empty %}
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-4 mt-2">
+            {% for image in images %}
+                <div class="border border-slate-200 rounded-md p-2 shadow-sm">
+                    <div class="flex flex-row justify-center items-center">
+                        <a href="/image/view/{{ image.getId() }}" title="view the image.">
+                            <img src="data:image/png;base64,{{ image.getData() }}"
+                                 class="border border-t-slate-100 rounded-t-md"
+                                 alt="{{ image.getName() }}">
                         </a>
                     </div>
+                    <div class="flex flex-row flex-wrap bg-white p-2 border border-slate-200 border-t-0 justify-between">
+                        <div class="text-sm text-slate-500 break-words w-10/12">
+                            <a href="/image/view/{{ image.getId() }}" title="view the image.">
+                                {{ image.getName() }}
+                            </a>
+                        </div>
+                        <div class="grow-0 pt-2">
+                            <a href="/image/delete/{{ image.getId() }}"
+                               title="delete the photo."
+                               class="">
+                                <img src="/images/delete-small.png">
+                            </a>
+                        </div>
+                    </div>
                 </div>
-            </div>
-        {% endfor %}
-    </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <div class="text-center">
+            No images are available.
+            <a href="/image">Care to upload one?</a>
+        </div>
+    {% endif %}
 {% endblock %}
