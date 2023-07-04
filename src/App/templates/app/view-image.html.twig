@@ -4,17 +4,16 @@
 
 {% block content %}
 
-    <div class="mt-4 ml-1 mb-0 pb-0 text-sm">
-        <a href="/" title="View all photos">Home</a> &raquo; <span class="font-bold">{{ image.getName() }}</span>
+    <div class="lg:mt-2 ml-1 mb-0 pb-0 text-sm">
+        <a href="/"
+           class="text-slate-400"
+           title="View all photos">Home</a> &raquo; <span class="font-medium text-slate-500">{{ image.getName() }}</span>
     </div>
 
-    <h1 class="inline-block xl:text-4xl">{{ image.getName() }}</h1>
+    <h1 class="inline-block mt-0 xl:text-4xl">{{ image.getName() }}</h1>
 
     <div class="border-2 border-slate-200 rounded-md p-2 shadow-sm">
-        <div class="">
-            <img src="data:image/png;base64,{{ image.getData() }}"
-                 class="border border-t-slate-100 rounded-md"
-                 alt="{{ image.getName() }}">
-        </div>
+        <img src="data:image/png;base64,{{ image.getData() }}"
+             alt="{{ image.getName() }}">
     </div>
 {% endblock %}

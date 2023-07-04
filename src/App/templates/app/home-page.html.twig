@@ -3,23 +3,16 @@
 {% block title %}Home{% endblock %}
 
 {% block content %}
-    <h1 class="inline-block xl:text-4xl">Available Photos</h1>
-
-    <a href="/image" class="text-slate-800 text-center py-4">
-        <img src="/images/plus-small.png"
-             class="ml-1 mb-1 inline-block"
-             alt="Upload a new photo to SQLite"
-             title="Upload a new photo">
-    </a>
+    <h1 class="inline-block pb-0 pt-0 mt-0 lg:pt-2 xl:text-4xl">Available Photos</h1>
 
     {% if deleted is defined and deleted == true %}
-    <div class="border border-green-300 bg-green-50 rounded-md p-3">
+    <div class="border border-green-300 mt-2 mb-4 bg-green-50 rounded-md p-3">
         Photo was successfully deleted
     </div>
     {% endif %}
 
     {% if deleted is defined and deleted == false %}
-        <div class="border border-red-300 bg-red-50 rounded-md p-3">
+        <div class="border border-red-300 mt-2 mb-4 bg-red-50 rounded-md p-3">
             Photo was NOT successfully deleted
         </div>
     {% endif %}
@@ -45,7 +38,8 @@
                             <a href="/image/delete/{{ image.getId() }}"
                                title="delete the photo."
                                class="">
-                                <img src="/images/delete-small.png">
+                                <img src="/images/delete-small.png"
+                                    alt="Delete image {{ image.getId() }}">
                             </a>
                         </div>
                     </div>
@@ -53,7 +47,7 @@
             {% endfor %}
         </div>
     {% else %}
-        <div class="text-center xl:text-xl mt-6">
+        <div class="text-center xl:text-xl mt-6 border-2 rounded-md border-slate-200 bg-white py-6">
             No images are available.
             <a href="/image">Care to upload one?</a>
         </div>

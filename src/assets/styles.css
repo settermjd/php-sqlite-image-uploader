@@ -8,7 +8,7 @@
     }
 
     form {
-        @apply my-4 mt-5 p-3 rounded-md bg-white p-8 rounded-md border-2 border-slate-200 drop-shadow-sm;
+        @apply my-4 mt-5 p-4 md:p-8 rounded-md bg-white rounded-md border-2 border-slate-200 drop-shadow-sm;
     }
 
     p {
