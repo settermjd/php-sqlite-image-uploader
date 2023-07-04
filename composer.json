@@ -101,7 +101,7 @@
         "cs-fix": "phpcbf",
         "serve": [
             "Composer\\Config::disableProcessTimeout",
-            "php -S 0.0.0.0:8080 -t public/"
+            "php -S 0.0.0.0:8080 -t public/ -d upload_max_filesize=5M -d post_max_size=10M"
         ],
         "test": "phpunit --colors=always",
         "test-coverage": "phpunit --colors=always --coverage-clover clover.xml"
