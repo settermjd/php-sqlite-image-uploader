@@ -25,6 +25,7 @@ use Psr\Http\Server\RequestHandlerInterface;
 use Psr\Log\LoggerInterface;
 
 use function array_merge_recursive;
+use function json_encode;
 use function unlink;
 
 class UploadHandler implements RequestHandlerInterface
@@ -94,7 +95,15 @@ class UploadHandler implements RequestHandlerInterface
             $image   = new Image(
                 name: $uploadedImage->getClientFilename(),
                 data: $imagick->getImageBlob(),
+                height: $imagick->getImageHeight(),
+                width: $imagick->getImageWidth(),
+                density: json_encode($imagick->getImageResolution()),
+                format: $imagick->getImageFormat(),
+                depth: $imagick->getImageDepth(),
+                colourSpace: $imagick->getColorspace(),
+                size: $imagick->getImageLength(),
             );
+            $this->logger->debug('Instantiating new image to upload');
             $this->entityManager->persist($image);
             $this->entityManager->flush();
             unlink($fileName);
