@@ -3,7 +3,7 @@
 {% block title %}Home{% endblock %}
 
 {% block content %}
-    <h1 class="inline-block text-2xl">Available Photos</h1>
+    <h1 class="inline-block xl:text-4xl">Available Photos</h1>
 
     <a href="/image" class="text-slate-800 text-center py-4">
         <img src="/images/plus-small.png"
@@ -53,7 +53,7 @@
             {% endfor %}
         </div>
     {% else %}
-        <div class="text-center">
+        <div class="text-center xl:text-xl mt-6">
             No images are available.
             <a href="/image">Care to upload one?</a>
         </div>
