@@ -4,3 +4,5 @@
 /coveralls-upload.json
 /phpunit.xml
 /vendor/
+.idea
+node_modules
