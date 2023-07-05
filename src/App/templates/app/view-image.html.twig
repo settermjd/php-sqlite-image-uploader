@@ -12,9 +12,9 @@
 
     <h1 class="inline-block mt-0 xl:text-4xl">{{ image.getName() }}</h1>
 
-    <div class="border-2 border-slate-200 rounded-md shadow-sm flex flex-row">
-        <img src="data:image/png;base64,{{ image.getData() }}"
-             class="w-8/12 p-2"
+    <div class="border-2 border-slate-200 rounded-md shadow-sm flex flex-col md:flex-row">
+        <img src="data:image/{{ image.getFormat()|lower }};base64,{{ image.getData() }}"
+             class="md:w-8/12 p-2"
              alt="{{ image.getName() }}">
         <div class="w-4/12 border-l-2 border-slate-200 pl-3 p-2 bg-white">
             <h2 class="text-xl xl:text-2xl font-bold">Photo Information</h2>

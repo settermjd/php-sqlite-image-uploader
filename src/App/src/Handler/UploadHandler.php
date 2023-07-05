@@ -12,12 +12,15 @@ use Laminas\Diactoros\Response\RedirectResponse;
 use Laminas\Diactoros\StreamFactory;
 use Laminas\Diactoros\UploadedFileFactory;
 use Laminas\Filter\File\RenameUpload;
+use Laminas\Filter\StringToLower;
 use Laminas\InputFilter\FileInput;
+use Laminas\InputFilter\Input;
 use Laminas\InputFilter\InputFilter;
 use Laminas\Validator\File\FilesSize;
 use Laminas\Validator\File\IsImage;
 use Laminas\Validator\File\MimeType;
 use Laminas\Validator\File\UploadFile;
+use Laminas\Validator\InArray;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Message\UploadedFileInterface;
@@ -26,6 +29,8 @@ use Psr\Log\LoggerInterface;
 
 use function array_merge_recursive;
 use function json_encode;
+use function pathinfo;
+use function sprintf;
 use function unlink;
 
 class UploadHandler implements RequestHandlerInterface
@@ -72,8 +77,20 @@ class UploadHandler implements RequestHandlerInterface
                 'use_upload_name'      => true,
             ]));
 
+        $optimise = new Input('optimise');
+        $optimise
+            ->getValidatorChain()
+            ->attach(new InArray([
+                'haystack' => ['yes', 'no'],
+            ]));
+        $optimise
+            ->getFilterChain()
+            ->attach(new StringToLower());
+
         $this->inputFilter = new InputFilter();
-        $this->inputFilter->add($file);
+        $this->inputFilter
+            ->add($file)
+            ->add($optimise);
     }
 
     public function handle(ServerRequestInterface $request): ResponseInterface
@@ -92,8 +109,16 @@ class UploadHandler implements RequestHandlerInterface
             $fileName      = $uploadedImage->getStream()->getMetadata("uri");
             $this->logger->debug('Uploaded Image', [$fileName]);
             $imagick = new Imagick($fileName);
-            $image   = new Image(
-                name: $uploadedImage->getClientFilename(),
+
+            $imageFilename = $uploadedImage->getClientFilename();
+            if ($this->inputFilter->getValue('optimise') === 'yes') {
+                $imagick->setImageFormat("avif");
+                $filenameParts = pathinfo($imageFilename);
+                $imageFilename = sprintf("%s.avif", $filenameParts['filename']);
+            }
+
+            $image = new Image(
+                name: $imageFilename,
                 data: $imagick->getImageBlob(),
                 height: $imagick->getImageHeight(),
                 width: $imagick->getImageWidth(),

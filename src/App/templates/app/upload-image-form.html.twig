@@ -29,6 +29,35 @@
             <div class="mt-2 text-xs text-gray-500">
                 Only {{ formats | join(', ', ' and ')}} files are supported, up to a maximum file size of <strong>5MB</strong>.
             </div>
+
+            <div class="mt-4">
+                <h3 class="font-medium block">Optimise the image</h3>
+                <div>
+                    <label>
+                        <input type="radio"
+                                  class="w-fit mt-3 mr-1 p-3"
+                                  value="yes"
+                                  name="optimise"
+                                  id="optimise"> Yes
+                        <span class="ml-6 text-sm font-normal text-gray-500 break-words whitespace-normal">
+                            The image will be converted to <a href="https://www.industrialempathy.com/posts/avif-webp-quality-settings/"
+                                                              target="_blank">AVIF</a> format.<br>
+                            <strong class="text-red-900">Caution:</strong> the larger the size of the image being uploaded, the greater the resources required to convert it.
+                        </span>
+                    </label>
+                </div>
+                <div>
+                    <label>
+                        <input type="radio"
+                              class="w-fit mt-3 mr-1"
+                              value="no"
+                              name="optimise"
+                              checked
+                              id="optimise"> No
+                        <span class="ml-6 text-sm font-normal text-gray-500">The image will be left in its original format</span>
+                    </label>
+                </div>
+            </div>
         </div>
         <input type="submit" name="submit" value="Upload Photo">
     </form>

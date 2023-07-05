@@ -23,7 +23,7 @@
                 <div class="border border-slate-200 rounded-md p-2 shadow-sm">
                     <div class="flex flex-row justify-center items-center">
                         <a href="/image/view/{{ image.getId() }}" title="view the image.">
-                            <img src="data:image/png;base64,{{ image.getData() }}"
+                            <img src="data:image/{{ image.getFormat()|lower }};base64,{{ image.getData() }}"
                                  class="border border-t-slate-100 rounded-t-md"
                                  alt="{{ image.getName() }}">
                         </a>
