@@ -10,28 +10,28 @@
            title="View all photos">Home</a> &raquo; <span class="font-medium text-slate-500">{{ image.getName() }}</span>
     </div>
 
-    <h1 class="inline-block mt-0 xl:text-4xl">{{ image.getName() }}</h1>
+    <h1 class="inline-block pt-1 md:pb-0 xl:pb-2 xl:pt-2 mt-0 xl:text-4xl">{{ image.getName() }}</h1>
 
     <div class="border-2 border-slate-200 rounded-md shadow-sm flex flex-col md:flex-row">
         <img src="data:image/{{ image.getFormat()|lower }};base64,{{ image.getData() }}"
              class="md:w-8/12 p-2"
              alt="{{ image.getName() }}">
-        <div class="w-4/12 border-l-2 border-slate-200 pl-3 p-2 bg-white">
+        <div class="md:w-4/12 border-t-2 md:border-t-0 md:border-l-2 border-slate-200 pl-3 p-2 bg-white">
             <h2 class="text-xl xl:text-2xl font-bold">Photo Information</h2>
             <div class="grid grid-cols-2 gap-2 py-3 mt-2 mb-2 border-t-2 border-b-2 border-slate-300 text-sm">
-                <div class="mb-0 font-medium">File size:</div>
-                <div>{{ image.getSize() }} bytes</div>
+                <div class="mb-0 font-bold">File size:</div>
+                <div>{{ image.getSize() }} KB</div>
 
-                <div class="mb-0 font-medium">Image dimensions:</div>
+                <div class="mb-0 font-bold">Image dimensions:</div>
                 <div>{{ image.getDimensions() }}</div>
 
-                <div class="mb-0 font-medium">Format:</div>
+                <div class="mb-0 font-bold">Format:</div>
                 <div>{{ image.getFormat() }}</div>
 
-                <div class="mb-0 font-medium">Colour Space:</div>
+                <div class="mb-0 font-bold">Colour Space:</div>
                 <div>{{ image.getColourSpace() }}</div>
 
-                <div class="mb-0 font-medium">Depth</div>
+                <div class="mb-0 font-bold">Depth:</div>
                 <div>{{ image.getDepth() }} bit</div>
             </div>
         </div>

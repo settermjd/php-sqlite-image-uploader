@@ -3,7 +3,7 @@
 {% block title %}Home{% endblock %}
 
 {% block content %}
-    <h1 class="inline-block pb-0 pt-0 mt-0 lg:pt-2 xl:text-4xl">Available Photos</h1>
+    <h1 class="inline-block text-slate-700 pb-0 pt-0 mt-0 lg:pt-2 xl:text-4xl">Available Photos</h1>
 
     {% if deleted is defined and deleted == true %}
     <div class="border border-green-300 mt-2 mb-4 bg-green-50 rounded-md p-3">
@@ -34,7 +34,7 @@
                                 {{ image.getName() }}
                             </a>
                         </div>
-                        <div class="grow-0 pt-2">
+                        <div class="grow-0 md:pt-2">
                             <a href="/image/delete/{{ image.getId() }}"
                                title="delete the photo."
                                class="">
