@@ -25,6 +25,8 @@
                         <a href="/image/view/{{ image.getId() }}" title="view the image.">
                             <img src="data:image/{{ image.getFormat()|lower }};base64,{{ image.getData() }}"
                                  class="border border-t-slate-100 rounded-t-md"
+                                 loading="lazy"
+                                 decoding="async"
                                  alt="{{ image.getName() }}">
                         </a>
                     </div>
@@ -39,7 +41,8 @@
                                title="delete the photo."
                                class="">
                                 <img src="/images/delete-small.png"
-                                    alt="Delete image {{ image.getId() }}">
+                                     loading="lazy"
+                                     alt="Delete image {{ image.getId() }}">
                             </a>
                         </div>
                     </div>
