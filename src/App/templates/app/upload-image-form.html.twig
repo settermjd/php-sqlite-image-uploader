@@ -26,23 +26,9 @@
                    name="file"
                    required="required"
                    type="file">
-            <div class="mt-2 text-sm">
-                Only <a href="https://web.dev/learn/images/avif/"
-                        title="Learn more about the AVIF file format"
-                        target="_blank">AVIF</a>,
-                <a href="https://web.dev/learn/images/gif/"
-                   title="Learn more about the GIF file format"
-                   target="_blank">GIF</a>,
-                <a href="https://web.dev/learn/images/jpeg/"
-                   title="Learn more about the JPEG file format"
-                   target="_blank">JPG</a>,
-                <a href="https://web.dev/learn/images/png/"
-                   title="Learn more about the PNG file format"
-                   target="_blank">PNG</a>, and
-                <a href="https://web.dev/learn/images/webp/"
-                   title="Learn more about the WebP file format"
-                   target="_blank">WebP</a>
-                files are supported, up to a maximum file size of <strong>5MB</strong>.</div>
+            <div class="mt-2 text-xs text-gray-500">
+                Only {{ formats | join(', ', ' and ')}} files are supported, up to a maximum file size of <strong>5MB</strong>.
+            </div>
         </div>
         <input type="submit" name="submit" value="Upload Photo">
     </form>
