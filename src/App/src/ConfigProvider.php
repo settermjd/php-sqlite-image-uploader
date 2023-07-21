@@ -44,13 +44,12 @@ class ConfigProvider
                 Handler\PingHandler::class => Handler\PingHandler::class,
             ],
             'factories'  => [
-                Handler\DeleteImageHandler::class     => Handler\DeleteImageHandlerFactory::class,
-                Handler\HomePageHandler::class        => ReflectionBasedAbstractFactory::class,
-                Handler\UploadHandler::class          => Handler\UploadHandlerFactory::class,
-                Handler\ViewImageHandler::class       => Handler\ViewImageHandlerFactory::class,
-                Handler\UploadImageFormHandler::class => Handler\UploadImageFormHandlerFactory::class,
-                ImageRepository::class                => ImageRepositoryFactory::class,
-                LoggerInterface::class                => function (): LoggerInterface {
+                Handler\DeleteImageHandler::class => Handler\DeleteImageHandlerFactory::class,
+                Handler\HomePageHandler::class    => ReflectionBasedAbstractFactory::class,
+                Handler\UploadHandler::class      => Handler\UploadHandlerFactory::class,
+                Handler\ViewImageHandler::class   => Handler\ViewImageHandlerFactory::class,
+                ImageRepository::class            => ImageRepositoryFactory::class,
+                LoggerInterface::class            => function (): LoggerInterface {
                     $log = new Logger('name');
                     $log->pushHandler(new StreamHandler(__DIR__ . '/../../../data/log/app.log', Level::Debug));
                     return $log;
