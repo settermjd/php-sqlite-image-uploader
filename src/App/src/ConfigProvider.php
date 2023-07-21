@@ -7,7 +7,6 @@ namespace App;
 use App\Repository\ImageRepository;
 use App\Repository\ImageRepositoryFactory;
 use Laminas\ServiceManager\AbstractFactory\ReflectionBasedAbstractFactory;
-use Laminas\ServiceManager\Factory\InvokableFactory;
 use Monolog\Handler\StreamHandler;
 use Monolog\Level;
 use Monolog\Logger;
