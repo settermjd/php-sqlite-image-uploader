@@ -46,8 +46,6 @@ class DeleteImageHandler implements RequestHandlerInterface
 
     public function handle(ServerRequestInterface $request): ResponseInterface
     {
-        $flashMessages = $request->getAttribute(FlashMessageMiddleware::FLASH_ATTRIBUTE);
-
         $this->logger->debug('Request attributes.', $request->getAttributes());
 
         $this->inputFilter->setData($request->getAttributes());
@@ -68,9 +66,6 @@ class DeleteImageHandler implements RequestHandlerInterface
                     $request->getAttribute('id')
                 ));
 
-                if ($flashMessages instanceof FlashMessagesInterface) {
-                    $flashMessages->flash('deleted', false);
-                }
                 return new RedirectResponse('/');
             }
 
@@ -78,10 +73,6 @@ class DeleteImageHandler implements RequestHandlerInterface
             $this->entityManager->flush();
 
             $this->logger->error(sprintf('Delete image with id %s.', $fileId));
-
-            if ($flashMessages instanceof FlashMessagesInterface) {
-                $flashMessages->flash('deleted', true);
-            }
 
             return new RedirectResponse('/');
         }

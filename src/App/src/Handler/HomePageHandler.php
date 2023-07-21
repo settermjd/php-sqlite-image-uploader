@@ -7,14 +7,10 @@ namespace App\Handler;
 use App\Entity\Image;
 use Doctrine\ORM\EntityManager;
 use Laminas\Diactoros\Response\HtmlResponse;
-use Mezzio\Flash\FlashMessageMiddleware;
-use Mezzio\Flash\FlashMessagesInterface;
 use Mezzio\Template\TemplateRendererInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\RequestHandlerInterface;
-
-use function array_merge;
 
 class HomePageHandler implements RequestHandlerInterface
 {
@@ -28,14 +24,7 @@ class HomePageHandler implements RequestHandlerInterface
     {
         $data = [];
 
-        /** @var FlashMessagesInterface $flashMessages */
-        $flashMessages = $request->getAttribute(FlashMessageMiddleware::FLASH_ATTRIBUTE);
-        if ($flashMessages instanceof FlashMessagesInterface) {
-            $messages = $flashMessages->getFlashes();
-            $data     = array_merge($data, $messages);
-        }
-
-        $images         = $this->entityManager
+        $images = $this->entityManager
             ->getRepository(Image::class)
             ->findAll();
         $data['images'] = $images;

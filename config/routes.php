@@ -42,21 +42,12 @@ use Psr\Container\ContainerInterface;
 return static function (Application $app, MiddlewareFactory $factory, ContainerInterface $container): void {
     $app->get(
         '/',
-        [
-            SessionMiddleware::class,
-            FlashMessageMiddleware::class,
-            App\Handler\HomePageHandler::class,
-        ],
+        App\Handler\HomePageHandler::class,
         'home'
     );
-    $app->get('/image', App\Handler\UploadImageFormHandler::class, 'image.upload.form');
     $app->get(
         '/image/delete/{id:\d+}',
-        [
-            SessionMiddleware::class,
-            FlashMessageMiddleware::class,
-            App\Handler\DeleteImageHandler::class,
-        ],
+        App\Handler\DeleteImageHandler::class,
         'image.delete'
     );
     $app->get('/image/view/{id:\d+}', App\Handler\ViewImageHandler::class, 'image.view');
