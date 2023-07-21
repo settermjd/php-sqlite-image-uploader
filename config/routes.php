@@ -61,5 +61,4 @@ return static function (Application $app, MiddlewareFactory $factory, ContainerI
     );
     $app->get('/image/view/{id:\d+}', App\Handler\ViewImageHandler::class, 'image.view');
     $app->post('/', App\Handler\UploadHandler::class, 'image.upload');
-    $app->get('/api/ping', App\Handler\PingHandler::class, 'api.ping');
 };
