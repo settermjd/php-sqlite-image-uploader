@@ -80,9 +80,10 @@ class DeleteImageHandler implements RequestHandlerInterface
         $this->logger->error('Could not delete the image.', $this->inputFilter->getMessages());
 
         return new HtmlResponse(
-            $this->renderer->render(
-                'app::delete-image',
-                ['errors' => $this->inputFilter->getMessages()]
+            $this->renderer
+                ->render(
+                    'app::delete-image',
+                    ['errors' => $this->inputFilter->getMessages()]
             )
         );
     }

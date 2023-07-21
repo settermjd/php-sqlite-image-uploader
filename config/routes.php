@@ -50,6 +50,14 @@ return static function (Application $app, MiddlewareFactory $factory, ContainerI
         App\Handler\DeleteImageHandler::class,
         'image.delete'
     );
-    $app->get('/image/view/{id:\d+}', App\Handler\ViewImageHandler::class, 'image.view');
-    $app->post('/', App\Handler\UploadHandler::class, 'image.upload');
+    $app->get(
+        '/image/view/{id:\d+}',
+        App\Handler\ViewImageHandler::class,
+        'image.view'
+    );
+    $app->post(
+        '/',
+        App\Handler\UploadHandler::class,
+        'image.upload'
+    );
 };
