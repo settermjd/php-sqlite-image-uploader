@@ -6,6 +6,8 @@ namespace App;
 
 use App\Repository\ImageRepository;
 use App\Repository\ImageRepositoryFactory;
+use Laminas\ServiceManager\AbstractFactory\ReflectionBasedAbstractFactory;
+use Laminas\ServiceManager\Factory\InvokableFactory;
 use Monolog\Handler\StreamHandler;
 use Monolog\Level;
 use Monolog\Logger;
@@ -43,7 +45,7 @@ class ConfigProvider
             ],
             'factories'  => [
                 Handler\DeleteImageHandler::class     => Handler\DeleteImageHandlerFactory::class,
-                Handler\HomePageHandler::class        => Handler\HomePageHandlerFactory::class,
+                Handler\HomePageHandler::class        => ReflectionBasedAbstractFactory::class,
                 Handler\UploadHandler::class          => Handler\UploadHandlerFactory::class,
                 Handler\ViewImageHandler::class       => Handler\ViewImageHandlerFactory::class,
                 Handler\UploadImageFormHandler::class => Handler\UploadImageFormHandlerFactory::class,
