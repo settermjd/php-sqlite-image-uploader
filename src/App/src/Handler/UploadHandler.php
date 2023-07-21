@@ -46,16 +46,12 @@ class UploadHandler implements RequestHandlerInterface
         // Add validators
         $file
             ->getValidatorChain()
-            // Ensure that the file is an uploaded file
-            ->attach(new UploadFile())
-            // Ensure that the uploaded file is an image
-            ->attach(new IsImage())
-            // Limit the file to a maximum size of 5MB
-            ->attach(new FilesSize([
+            ->attach(new UploadFile())      // Ensure that the file is an uploaded file
+            ->attach(new IsImage())         // Ensure that the uploaded file is an image
+            ->attach(new FilesSize([        // Limit the file to a maximum size of 5MB
                 'max' => '5MB',
             ]))
-            // Restrict the allowed file types
-            ->attach(new MimeType([
+            ->attach(new MimeType([         // Restrict the allowed file types
                 'image/avif',
                 'image/gif',
                 'image/jpeg',
@@ -66,8 +62,7 @@ class UploadHandler implements RequestHandlerInterface
         // Add filters
         $file
             ->getFilterChain()
-            // Move and rename the uploaded file after it is uploaded
-            ->attach(new RenameUpload([
+            ->attach(new RenameUpload([     // Move and rename the uploaded file after it is uploaded
                 'overwrite'            => true,
                 'randomize'            => true,
                 'stream_factory'       => new StreamFactory(),
@@ -87,8 +82,7 @@ class UploadHandler implements RequestHandlerInterface
             ->getFilterChain()
             ->attach(new StringToLower());
 
-        $this->inputFilter = new InputFilter();
-        $this->inputFilter
+        $this->inputFilter = (new InputFilter())
             ->add($file)
             ->add($optimise);
     }
