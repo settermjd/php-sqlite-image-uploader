@@ -7,8 +7,7 @@ namespace App\Handler;
 use App\Entity\Image;
 use Doctrine\ORM\EntityManager;
 use Imagick;
-use Laminas\Diactoros\Response\EmptyResponse;
-use Laminas\Diactoros\Response\RedirectResponse;
+use Laminas\Diactoros\Response\JsonResponse;
 use Laminas\Diactoros\StreamFactory;
 use Laminas\Diactoros\UploadedFileFactory;
 use Laminas\Filter\File\RenameUpload;
@@ -39,17 +38,17 @@ class UploadHandler implements RequestHandlerInterface
 
     public function __construct(
         private EntityManager $entityManager,
-        private LoggerInterface $logger
+        private LoggerInterface $logger,
+        private array $uploadConfig
     ) {
-        $file = new FileInput('file');
+        $image = new FileInput('image');
 
-        // Add validators
-        $file
+        $image
             ->getValidatorChain()
             ->attach(new UploadFile())      // Ensure that the file is an uploaded file
             ->attach(new IsImage())         // Ensure that the uploaded file is an image
             ->attach(new FilesSize([        // Limit the file to a maximum size of 5MB
-                'max' => '5MB',
+                'max' => $this->uploadConfig['max_file_size'],
             ]))
             ->attach(new MimeType([         // Restrict the allowed file types
                 'image/avif',
@@ -59,14 +58,13 @@ class UploadHandler implements RequestHandlerInterface
                 'image/webp',
             ]));
 
-        // Add filters
-        $file
+        $image
             ->getFilterChain()
-            ->attach(new RenameUpload([     // Move and rename the uploaded file after it is uploaded
+            ->attach(new RenameUpload([
                 'overwrite'            => true,
                 'randomize'            => true,
                 'stream_factory'       => new StreamFactory(),
-                'target'               => __DIR__ . '/../../../../data/uploads/',
+                'target'               => $this->uploadConfig['upload_dir'],
                 'upload_file_factory'  => new UploadedFileFactory(),
                 'use_upload_extension' => true,
                 'use_upload_name'      => true,
@@ -85,7 +83,7 @@ class UploadHandler implements RequestHandlerInterface
             ->attach(new StringToLower());
 
         $this->inputFilter = (new InputFilter())
-            ->add($file)
+            ->add($image)
             ->add($optimise);
     }
 
@@ -95,13 +93,14 @@ class UploadHandler implements RequestHandlerInterface
             $request->getParsedBody(),
             $request->getUploadedFiles()
         );
+
         $this->logger->debug("POST data", $post);
 
         $this->inputFilter->setData($post);
 
         if ($this->inputFilter->isValid()) {
             /** @var UploadedFileInterface $uploadedImage */
-            $uploadedImage = $this->inputFilter->getValue('file');
+            $uploadedImage = $this->inputFilter->getValue('image');
             $fileName      = $uploadedImage->getStream()->getMetadata("uri");
             $this->logger->debug('Uploaded Image', [$fileName]);
             $imagick = new Imagick($fileName);
@@ -129,7 +128,7 @@ class UploadHandler implements RequestHandlerInterface
             $this->entityManager->flush();
             unlink($fileName);
 
-            return new RedirectResponse('/');
+            return new JsonResponse('Image was uploaded successfully.');
         }
 
         $this->logger->error(
@@ -137,6 +136,10 @@ class UploadHandler implements RequestHandlerInterface
             $this->inputFilter->getMessages()
         );
 
-        return new EmptyResponse(500);
+        $data = [
+            'error'   => 'Image was not uploaded.',
+            'reasons' => $this->inputFilter->getMessages(),
+        ];
+        return new JsonResponse($data);
     }
 }

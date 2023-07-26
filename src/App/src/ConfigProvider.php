@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App;
 
+use App\Handler\UploadHandlerFactory;
 use App\Repository\ImageRepository;
 use App\Repository\ImageRepositoryFactory;
 use Laminas\ServiceManager\AbstractFactory\ReflectionBasedAbstractFactory;
@@ -41,12 +42,12 @@ class ConfigProvider
         return [
             'invokables' => [],
             'factories'  => [
-                Handler\DeleteImageHandler::class => Handler\DeleteImageHandlerFactory::class,
-                Handler\HomePageHandler::class    => ReflectionBasedAbstractFactory::class,
-                Handler\UploadHandler::class      => Handler\UploadHandlerFactory::class,
-                Handler\ViewImageHandler::class   => Handler\ViewImageHandlerFactory::class,
-                ImageRepository::class            => ImageRepositoryFactory::class,
-                LoggerInterface::class            => function (): LoggerInterface {
+                Handler\DeleteImageHandler::class   => ReflectionBasedAbstractFactory::class,
+                Handler\HomePageHandler::class      => ReflectionBasedAbstractFactory::class,
+                Handler\UploadHandler::class        => UploadHandlerFactory::class,
+                Handler\DownloadImageHandler::class => ReflectionBasedAbstractFactory::class,
+                ImageRepository::class              => ImageRepositoryFactory::class,
+                LoggerInterface::class              => function (): LoggerInterface {
                     $log = new Logger('name');
                     $log->pushHandler(new StreamHandler(__DIR__ . '/../../../data/log/app.log', Level::Debug));
                     return $log;
