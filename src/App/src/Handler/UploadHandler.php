@@ -74,6 +74,8 @@ class UploadHandler implements RequestHandlerInterface
 
         $optimise = new Input('optimise');
         $optimise
+            ->setAllowEmpty(true)
+            ->setRequired(false)
             ->getValidatorChain()
             ->attach(new InArray([
                 'haystack' => ['yes', 'no'],
