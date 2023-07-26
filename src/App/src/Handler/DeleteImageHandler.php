@@ -7,6 +7,7 @@ namespace App\Handler;
 use App\Entity\Image;
 use Doctrine\ORM\EntityManager;
 use Laminas\Diactoros\Response\HtmlResponse;
+use Laminas\Diactoros\Response\JsonResponse;
 use Laminas\Diactoros\Response\RedirectResponse;
 use Laminas\Filter\Digits;
 use Laminas\Filter\StringToLower;
@@ -29,7 +30,6 @@ class DeleteImageHandler implements RequestHandlerInterface
     private InputFilter $inputFilter;
 
     public function __construct(
-        private TemplateRendererInterface $renderer,
         private EntityManager $entityManager,
         private LoggerInterface $logger,
     ) {
@@ -61,12 +61,9 @@ class DeleteImageHandler implements RequestHandlerInterface
                 ->findOneBy(['id' => $fileId]);
 
             if (! $image instanceof Image) {
-                $this->logger->error(sprintf(
-                    'Could not retrieve file with ID: %s.',
-                    $request->getAttribute('id')
-                ));
-
-                return new RedirectResponse('/');
+                $message = sprintf('Could not retrieve file with ID: %s.', $request->getAttribute('id'));
+                $this->logger->error($message);
+                return new JsonResponse($message);
             }
 
             $this->entityManager->remove($image);
@@ -74,17 +71,11 @@ class DeleteImageHandler implements RequestHandlerInterface
 
             $this->logger->error(sprintf('Delete image with id %s.', $fileId));
 
-            return new RedirectResponse('/');
+            return new JsonResponse('Image was deleted.');
         }
 
         $this->logger->error('Could not delete the image.', $this->inputFilter->getMessages());
 
-        return new HtmlResponse(
-            $this->renderer
-                ->render(
-                    'app::delete-image',
-                    ['errors' => $this->inputFilter->getMessages()]
-            )
-        );
+        return new JsonResponse('Could not delete the image.');
     }
 }

@@ -165,4 +165,19 @@ class Image
             default => 'Unknown',
         };
     }
+
+    public function __toArray(): array
+    {
+        return [
+            'colorSpace' => $this->getColourSpace(),
+            'data'       => $this->getData(),
+            'depth'      => $this->getDepth(),
+            'format'     => $this->getFormat(),
+            'height'     => $this->getHeight(),
+            'id'         => $this->getId(),
+            'name'       => $this->getName(),
+            'size'       => $this->getSize(),
+            'width'      => $this->getWidth(),
+        ];
+    }
 }
