@@ -5,16 +5,14 @@ declare(strict_types=1);
 namespace App\Handler;
 
 use Doctrine\ORM\EntityManager;
-use Mezzio\Template\TemplateRendererInterface;
 use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
 
-class ViewImageHandlerFactory
+class DownloadImageHandlerFactory
 {
-    public function __invoke(ContainerInterface $container): ViewImageHandler
+    public function __invoke(ContainerInterface $container): DownloadImageHandler
     {
-        return new ViewImageHandler(
-            $container->get(TemplateRendererInterface::class),
+        return new DownloadImageHandler(
             $container->get(EntityManager::class),
             $container->get(LoggerInterface::class),
         );

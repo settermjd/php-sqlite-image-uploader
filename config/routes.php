@@ -51,8 +51,8 @@ return static function (Application $app, MiddlewareFactory $factory, ContainerI
         'image.delete'
     );
     $app->get(
-        '/image/view/{id:\d+}',
-        App\Handler\ViewImageHandler::class,
+        '/{id:\d+}',
+        App\Handler\DownloadImageHandler::class,
         'image.view'
     );
     $app->post(
