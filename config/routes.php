@@ -45,8 +45,8 @@ return static function (Application $app, MiddlewareFactory $factory, ContainerI
         App\Handler\HomePageHandler::class,
         'home'
     );
-    $app->get(
-        '/image/delete/{id:\d+}',
+    $app->delete(
+        '/{id:\d+}',
         App\Handler\DeleteImageHandler::class,
         'image.delete'
     );
