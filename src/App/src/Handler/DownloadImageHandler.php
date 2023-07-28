@@ -7,9 +7,7 @@ namespace App\Handler;
 use App\Entity\Image;
 use Doctrine\ORM\EntityManager;
 use Laminas\Diactoros\Response;
-use Laminas\Diactoros\Response\EmptyResponse;
 use Laminas\Diactoros\Response\JsonResponse;
-use Laminas\Diactoros\StreamFactory;
 use Laminas\Filter\Digits;
 use Laminas\InputFilter\Input;
 use Laminas\InputFilter\InputFilter;
@@ -43,7 +41,6 @@ class DownloadImageHandler implements RequestHandlerInterface
         $result = $this->getImage($request);
 
         if ($result instanceof Image) {
-
             $this->logger->debug(sprintf(
                 'Retrieved image with length: %d and format: %s',
                 $result->getSize(),

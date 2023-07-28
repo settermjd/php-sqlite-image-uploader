@@ -42,6 +42,6 @@ class HomePageHandler implements RequestHandlerInterface
             return new JsonResponse($data);
         }
 
-        return new EmptyResponse();
+        return new JsonResponse('', 204);
     }
 }

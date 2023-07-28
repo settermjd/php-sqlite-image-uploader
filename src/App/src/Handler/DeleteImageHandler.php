@@ -35,9 +35,6 @@ class DeleteImageHandler implements RequestHandlerInterface
     ) {
         $fileId = new Input('id');
         $fileId->getFilterChain()
-            ->attach(new StringToLower())
-            ->attach(new StripNewlines())
-            ->attach(new StripTags())
             ->attach(new Digits());
 
         $this->inputFilter = new InputFilter();
